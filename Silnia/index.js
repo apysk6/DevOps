@@ -22,14 +22,14 @@ app.get('/', (req, resp) => {
 });
 
 app.get('/silnia/:factorial', (req, resp) => {
-    let factorialValue = req.params.factorial;
+    const factorialValue = req.params.factorial;
     if (factorialValue > 9) {
         process.exit(1);
     };
 
     client.get(factorialValue, (err, result) => {
         if (!result) {
-            let countFactorialResult = countFactorial(factorialValue);
+            const countFactorialResult = countFactorial(factorialValue);
             client.set(factorialValue, parseInt(countFactorialResult));
             resp.send('Wynik silni z ' + factorialValue + ' wynosi: ' + countFactorialResult);
         }
