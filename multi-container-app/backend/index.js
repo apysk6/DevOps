@@ -36,48 +36,43 @@ app.get('/', (req, resp) => {
     resp.send('Hello backend');
 });
 
-app.get('/gcd/:num1/:num2', (req, resp) => {
-    const firstNumber = req.params.num1;
-    const secondNumber = req.params.num2;
-    const parsedCacheValue = firstNumber + ',' + secondNumber;
+app.post('/median', (req, res) => {
+    const numbers = req.body.numbers;
+    const parsedCacheValue = numbers.join(',');
 
     redisClient.get(parsedCacheValue, (err, cachedValue) => {
         if (!cachedValue) {
-            const countGCDValue = GCD(firstNumber, secondNumber);
-            redisClient.set(parsedCacheValue, parseInt(countGCDValue));
-            resp.send('NWD liczb ' + firstNumber + " oraz " + secondNumber + ' wynosi: ' + countGCDValue);
+            const calculatedMedianValue = calculateMedian(numbers);
+            redisClient.set(parsedCacheValue, calculatedMedianValue);
+            res.json({ median: calculatedMedianValue });
 
-            pgClient.query('INSERT INTO results(number) VALUES($1)', [countGCDValue], (err, res) => {
+            pgClient.query('INSERT INTO results(number) VALUES($1)', [calculatedMedianValue], (err, res) => {
                 if (err) {
                     console.log(err.stack);
                 };
             })
         }
         else {
-            resp.send('NWD liczb ' + firstNumber + " oraz " + secondNumber + ' wynosi: ' + cachedValue);
+            res.json({ median: cachedValue });
         };
     });
-});
-
-app.get('/gcd/', (req, resp) => {
-    pgClient.query('SELECT * FROM results', (err, res) => {
-        if (err) {
-            console.log(err.stack);
-        }
-        else {
-            resp.send(res.rows);
-        };
-    })
 });
 
 app.listen(4000, () => {
     console.log('Server listening on port: 4000');
 });
 
-const GCD = (a, b) => {
-    if (!b) {
-        return a;
-    }
+const calculateMedian = (values) => {
+    if (values.length === 0) return 0;
 
-    return GCD(b, a % b);
+    values.sort((a, b) => {
+        return a - b;
+    });
+
+    var half = Math.floor(values.length / 2);
+
+    if (values.length % 2)
+        return values[half];
+
+    return (values[half - 1] + values[half]) / 2.0;
 }

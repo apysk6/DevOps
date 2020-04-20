@@ -1,0 +1,19 @@
+.Result {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+p {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.Header {
+    font-size: 1.5rem;
+}

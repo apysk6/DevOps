@@ -1,0 +1,42 @@
+.Content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Header {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+}
+
+.MedianInput {
+    width: 41.5%;
+}
+
+.CalculateButton {
+    margin-top: 1.5rem;
+    border: 1px solid #1376e8;
+    background: #fff;
+    color: #1376e8;
+    width: 110px;
+    height: 34px;
+    outline: none;
+    cursor: pointer;
+    font-family: "Roboto",sans-serif;
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.9px;
+}
+
+.CalculateButton:hover,
+.CalculateButton:disabled {
+    background: rgb(243, 242, 242);
+}
+
+.CalculateButton:disabled {
+    cursor: not-allowed;
+}
