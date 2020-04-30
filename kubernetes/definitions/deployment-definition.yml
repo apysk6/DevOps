@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: myapp-replicaset
+  labels:
+    app: myapp
+    type: frontend
+
+spec:
+  template:
+    metadata:
+        name: myapp-pod
+        labels:
+          app: myapp
+          type: frontend
+    spec:
+      containers:
+        - name: frontend-app
+          imagePullPolicy: Never
+          image: frontend-app
+
+  replicas: 4
+  selector:
+    matchLabels:
+      type: frontend
+      

@@ -7,5 +7,6 @@ metadata:
     type: frontend
 spec:
   containers:
-    - name: my-nginx-container
-      image: nginx
+    - name: frontend-app
+      imagePullPolicy: Never
+      image: frontend-app
