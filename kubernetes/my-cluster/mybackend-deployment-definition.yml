@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: mybackend-deployment
+  labels:
+    app: myapp
+    type: backend
+
+spec:
+  template:
+    metadata:
+        name: mybackend-pod
+        labels:
+          app: myapp-backend
+          type: backend
+    spec:
+      containers:
+        - name: my-mybackend-container
+          image: apysk/median-backend
+          env:
+            - name: REDIS_HOST
+              value: myredisservice
+            - name: REDIS_PORT
+              value: '6379'
+            - name: PG_HOST
+              value: my-postgres
+            - name: PGUSER
+              value: postgres
+            - name: PGDATABASE
+              value: postgres
+            - name: PGPASSWORD
+              value: 123qwe123qwe
+            - name: PGPORT
+              value: '5432'
+
+  replicas: 3
+  selector:
+    matchLabels:
+      type: backend
+      

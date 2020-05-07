@@ -1,10 +1,14 @@
 const keys = require('./keys');
 
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 const bodyParser = require('body-parser');
 
 const app = express();
 app.use(bodyParser.json());
+
+const appId = uuidv4();
+const appPort = 5000;
 
 const redis = require('redis');
 const redisClient = redis.createClient({
@@ -12,8 +16,6 @@ const redisClient = redis.createClient({
     port: keys.redisPort,
     retry_strategy: () => 1000
 });
-
-console.log(keys);
 
 const { Pool } = require('pg');
 const pgClient = new Pool({
@@ -32,8 +34,8 @@ pgClient.query('CREATE TABLE IF NOT EXISTS results(number INT)').catch(err => {
     console.log(err);
 });
 
-app.get('/', (req, resp) => {
-    resp.send('Hello backend');
+app.get('/', (req,res) => {
+    res.send(`[${appId}] Hello from median backend app!`);
 });
 
 app.post('/median', (req, res) => {
@@ -58,8 +60,9 @@ app.post('/median', (req, res) => {
     });
 });
 
-app.listen(4000, () => {
-    console.log('Server listening on port: 4000');
+app.listen(appPort, () => {
+    console.log('Server listening on port: ' + appPort);
+    console.log('Server UUID: ' + appId);
 });
 
 const calculateMedian = (values) => {
