@@ -26,6 +26,8 @@ const pgClient = new Pool({
     port: keys.pgPort
 });
 
+console.log(keys);
+
 pgClient.on('error', () => {
     console.log('No connection to PG DB.');
 });
@@ -35,7 +37,7 @@ pgClient.query('CREATE TABLE IF NOT EXISTS results(number INT)').catch(err => {
 });
 
 app.get('/', (req,res) => {
-    res.send(`[${appId}] Hello from median backend app!`);
+    res.send(`[${appId}]`);
 });
 
 app.post('/median', (req, res) => {

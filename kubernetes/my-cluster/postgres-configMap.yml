@@ -1,0 +1,12 @@
+apiVersion: v1
+
+kind: ConfigMap
+
+metadata:
+  name: postgres-config
+
+data:
+  PGHOST: postgres-service
+  PGUSER: postgres
+  PGDATABASE: postgres
+  PGPORT: '5432'
