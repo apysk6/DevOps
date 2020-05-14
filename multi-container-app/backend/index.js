@@ -62,7 +62,7 @@ app.post('/median', (req, res) => {
     });
 });
 
-app.listen(appPort, () => {
+app.listen(4000, () => {
     console.log('Server listening on port: ' + appPort);
     console.log('Server UUID: ' + appId);
 });
