@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: ingress-backend-deployment
+  labels:
+    app: myapp
+    type: backend
+
+spec:
+  template:
+    metadata:
+        name: ingress-backend-pod
+        labels:
+          app: ingress-test-backend
+          type: backend
+    spec:
+      containers:
+        - name: my-ingress-backend-container
+          image: apysk/ingress-api-test
+
+  replicas: 3
+  selector:
+    matchLabels:
+      type: test-backend
+      

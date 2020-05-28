@@ -10,5 +10,17 @@ spec:
     - ReadWriteOnce
   capacity:
     storage: 100Mi
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
   hostPath:
     path: /c/Users/Artur/Tmp/k8s-volume1
+    type: DirectoryOrCreate
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+           - docker-desktop
