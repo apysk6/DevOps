@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+    name: myfrontend-deployment
+    labels:
+        app: myfrontend
+        type: frontend
+
+spec:
+    template:
+        metadata:
+            name: myfrontend-pod
+            labels:
+                app: myfrontend
+                type: frontend
+
+        spec:
+            containers:
+                - name: my-frontend-container
+                  image: apysk/frontend-app
+                  imagePullPolicy: Always
+                  ports:
+                    - containerPort: 80
+
+    replicas: 3
+    selector:
+        matchLabels:
+            type: frontend

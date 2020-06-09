@@ -19,6 +19,7 @@ spec:
       containers:
         - name: my-mybackend-container
           image: apysk/median-backend
+          imagePullPolicy: Always
           env:
             - name: REDIS_HOST
               value: myredisservice

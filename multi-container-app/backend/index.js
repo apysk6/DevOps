@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const appId = uuidv4();
-const appPort = 5000;
+const appPort = 4000;
 
 const redis = require('redis');
 const redisClient = redis.createClient({
@@ -26,8 +26,6 @@ const pgClient = new Pool({
     port: keys.pgPort
 });
 
-console.log(keys);
-
 pgClient.on('error', () => {
     console.log('No connection to PG DB.');
 });
@@ -37,7 +35,7 @@ pgClient.query('CREATE TABLE IF NOT EXISTS results(number INT)').catch(err => {
 });
 
 app.get('/', (req,res) => {
-    res.send(`[${appId}]`);
+    res.status(200).send(`[${appId}]`);
 });
 
 app.post('/median', (req, res) => {
@@ -48,7 +46,7 @@ app.post('/median', (req, res) => {
         if (!cachedValue) {
             const calculatedMedianValue = calculateMedian(numbers);
             redisClient.set(parsedCacheValue, calculatedMedianValue);
-            res.json({ median: calculatedMedianValue });
+            res.status(200).json({ median: calculatedMedianValue });
 
             pgClient.query('INSERT INTO results(number) VALUES($1)', [calculatedMedianValue], (err, res) => {
                 if (err) {
@@ -57,12 +55,12 @@ app.post('/median', (req, res) => {
             })
         }
         else {
-            res.json({ median: cachedValue });
+            res.status(200).json({ median: cachedValue });
         };
     });
 });
 
-app.listen(4000, () => {
+app.listen(appPort, () => {
     console.log('Server listening on port: ' + appPort);
     console.log('Server UUID: ' + appId);
 });
